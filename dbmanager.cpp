@@ -8,7 +8,6 @@ DbManager::DbManager(const QString &path)
 {
     m_db = QSqlDatabase::addDatabase("QSQLITE");
     m_db.setDatabaseName(path);
-
     if (!m_db.open())
     {
         qDebug() << "Error: connection with database fail";
@@ -24,6 +23,7 @@ DbManager::~DbManager()
     if (m_db.isOpen())
     {
         m_db.close();
+        m_db.removeDatabase("QSQLITE");
     }
 }
 
@@ -37,21 +37,22 @@ bool DbManager::createTable(QString tabla)
     bool success = false;
     QSqlQuery query;
     QString consulta;
-    consulta.append("CREATE TABLE ");
+    consulta.append("CREATE TABLE IF NOT EXISTS ");
     consulta.append(tabla);
     consulta.append("(id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "validez VARCHAR(15),"
                     "latitud INTEGER NOT NULL,"
                     "longitud INTEGER NOT NULL,"
                     "velocidad INTEGER NOT NULL,"
-                    "pulsacion VARCHAR(15)"
-                    ");");
+                    "pulsacion VARCHAR(15));");
     query.prepare(consulta);
     if (!query.exec())
     {
         qDebug() << "Couldn't create the table "<< tabla <<": one might already exist.";
         success = false;
     }
+    else
+        success = true;
     return success;
 }
 
@@ -71,55 +72,42 @@ bool DbManager::removeTable(QString tabla)
     return success;
 }
 
-bool DbManager::addPerson(const QString& name)
+bool DbManager::addData(QString tabla, DataBlock data)
 {
     bool success = false;
-
-    if (!name.isEmpty())
+    if (!tabla.isEmpty())
     {
+        QString pedido;
+        pedido.append("INSERT INTO ");
+        pedido.append(tabla);
+        pedido.append(" (validez,latitud,longitud,velocidad,pulsacion) "
+                      "VALUES (:validez,:latitud,:longitud,:velocidad,:pulsacion)");
         QSqlQuery queryAdd;
-        queryAdd.prepare("INSERT INTO people (name) VALUES (:name)");
-        queryAdd.bindValue(":name", name);
-
+        queryAdd.prepare(pedido);
+        queryAdd.bindValue(":validez", data.validez);
+        queryAdd.bindValue(":latitud", data.latitud);
+        queryAdd.bindValue(":longitud", data.longitud);
+        queryAdd.bindValue(":velocidad", data.velocidad);
+        queryAdd.bindValue(":pulsacion", data.pulsacion);
         if(queryAdd.exec())
         {
             success = true;
         }
         else
         {
-            qDebug() << "add person failed: " << queryAdd.lastError();
+            qDebug() << "add player failed: " << queryAdd.lastError();
         }
     }
     else
     {
-        qDebug() << "add person failed: name cannot be empty";
+        qDebug() << "add player failed: name cannot be empty";
     }
-
     return success;
 }
 
-bool DbManager::removePerson(const QString& name)
+QStringList DbManager::obtenerLista()
 {
-    bool success = false;
-
-    if (personExists(name))
-    {
-        QSqlQuery queryDelete;
-        queryDelete.prepare("DELETE FROM people WHERE name = (:name)");
-        queryDelete.bindValue(":name", name);
-        success = queryDelete.exec();
-
-        if(!success)
-        {
-            qDebug() << "remove person failed: " << queryDelete.lastError();
-        }
-    }
-    else
-    {
-        qDebug() << "remove person failed: person doesnt exist";
-    }
-
-    return success;
+    return m_db.tables();
 }
 
 void DbManager::printAllPersons() const

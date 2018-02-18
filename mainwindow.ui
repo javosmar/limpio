@@ -14,17 +14,67 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="pushButtonnuevo">
+   <widget class="QPushButton" name="pushButtonescribir">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
+      <x>310</x>
+      <y>220</y>
+      <width>75</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Write</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>30</y>
+      <width>112</width>
+      <height>126</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLineEdit" name="lineEditvalidez"/>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditlatitud"/>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditlongitud"/>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditvelocidad"/>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditpulsacion"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QComboBox" name="comboBoxlista">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>30</y>
+      <width>121</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtoncerrar">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>140</y>
       <width>75</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>Nuevo</string>
+     <string>close</string>
     </property>
    </widget>
   </widget>
@@ -37,6 +87,15 @@
      <height>18</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuDatabase">
+    <property name="title">
+     <string>Database</string>
+    </property>
+    <addaction name="actionNew"/>
+    <addaction name="actionNew_Player"/>
+    <addaction name="separator"/>
+   </widget>
+   <addaction name="menuDatabase"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -47,6 +106,16 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionNew">
+   <property name="text">
+    <string>New/Open Database</string>
+   </property>
+  </action>
+  <action name="actionNew_Player">
+   <property name="text">
+    <string>New Player</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
