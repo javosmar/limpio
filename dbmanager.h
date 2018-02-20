@@ -21,9 +21,9 @@ public:
     bool removeTable(QString);
     bool addData(QString, DataBlock);
     QStringList obtenerLista();
+    void printPlayer(QString) const;
 
     bool personExists(const QString& name) const;
-    void printAllPersons() const;
     bool removeAllPersons();
 
 private:

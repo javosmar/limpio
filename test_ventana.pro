@@ -4,8 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
-QT       += sql
+QT       += core gui sql serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,12 +27,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     dialog2.cpp \
-    dbmanager.cpp
+    dbmanager.cpp \
+    serialport.cpp
 
 HEADERS += \
         mainwindow.h \
     dialog2.h \
-    dbmanager.h
+    dbmanager.h \
+    serialport.h
 
 FORMS += \
         mainwindow.ui \

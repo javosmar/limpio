@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("GPSport");
     ventana = new Dialog2(this);
+    serial = new serialPort();
     setFalse();
 }
 

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <dialog2.h>
 #include <dbmanager.h>
+#include <serialport.h>
 #include <QFileDialog>
 #include <QDebug>
 
@@ -36,6 +37,7 @@ private:
     Ui::MainWindow *ui;
     Dialog2 *ventana;
     DbManager *db;
+    serialPort *serial;
     QString path, nombre;
 };
 

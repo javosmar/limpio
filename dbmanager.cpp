@@ -110,10 +110,12 @@ QStringList DbManager::obtenerLista()
     return m_db.tables();
 }
 
-void DbManager::printAllPersons() const
+void DbManager::printPlayer(QString tabla) const
 {
-    qDebug() << "Persons in db:";
-    QSqlQuery query("SELECT * FROM people");
+    QString pedido;
+    pedido.append("SELECT * FROM ");
+    pedido.append(tabla);
+    QSqlQuery query(pedido);
     int idName = query.record().indexOf("name");
     while (query.next())
     {
